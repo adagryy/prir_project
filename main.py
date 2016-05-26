@@ -1,19 +1,19 @@
-from functions import help_print
-import sys
+from functions import *
+import sys, json, os
 
 def read_option():
 	help_print()
-	print "Please enter correct option"
+	
 	option = ""
 	while True:
-		option = sys.stdin.read(1)
+		print "Please enter correct option"
+		option = raw_input()
 		option = option.lower()
 		if option == 'c':
-
-			break
+			x = create_new_object_type()
+			# break
 		elif option == 'r':
 
-			
 			break
 		elif option == 'u':
 
@@ -30,4 +30,9 @@ def read_option():
 		else:
 			break;
 
+
+
+# for dirname, dirnames, filenames in os.walk(path):
+#     for subdirname in dirnames:
+#     	print subdirname
 read_option()
