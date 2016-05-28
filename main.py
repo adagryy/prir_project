@@ -20,13 +20,15 @@ def read_option():
 			print ""
 		elif option == 'd':
 			print ""
-		elif option == 'e':
+		elif option == 'q':
 			print("Exitting...")
-			time.sleep( 1 )
+			time.sleep( .5 )
 			break
 		elif option == 'n':
 			x = create_new_object_type()
 		else:
-			print ""
+			sys.stderr.write("\x1b[2J\x1b[H")
+			print "Incorrect option. Hit enter and try again..."
+			raw_input()
 
 read_option()

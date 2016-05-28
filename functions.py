@@ -9,7 +9,7 @@ def help_print():
 	"R - READ objects... \n" \
 	"U - UPDATE objects... \n" \
 	"D - DELETE objects... \n" \
-	"e - exit database console\n" \
+	"q - exit database console\n" \
 	"n - new object type"
 
 def error_message():
@@ -58,9 +58,9 @@ def create_new_object_type():
 		text_file.close()
 		dir_name = full_path + "/" + object_name
 		os.mkdir(dir_name)
-		# text_file = open(dir_name + "/_count_" + object_name + "_count_.txt", "w")
-		# text_file.write("0")
-		# text_file.close()
+		text_file = open(dir_name + "/_config_" + object_name + "_config_.txt", "w")
+		text_file.write("1")
+		text_file.close()
 		# print directory
 	# for key in sd:
 	# 	print key + ": " + sd[key]
