@@ -4,6 +4,7 @@ from functions import error_message
 def update_object(main_server_path, main_server_name):
 	sys.stderr.write("\x1b[2J\x1b[H")
 	dirs = os.walk(main_server_path).next()[1]
+	flag = False
 
 	object_types = os.walk(main_server_name).next()[1]
 	# for directory in dirs:
@@ -81,9 +82,12 @@ def update_object(main_server_path, main_server_name):
 	while True:
 		pass
 		try:
-			# surname_index = 1
-			# for surname in data_for_change:
-			# 	print str(surname_index) + ". " + surname
+			if flag == True:
+				surname_index = 1
+				for surname in data_for_change:
+					print str(surname_index) + ". " + surname
+					i += 1
+			flag = True
 			print "Type, which " + access_keys[number_2 - 1] +"s should I have change?"
 			specified_value = int(raw_input())
 			if specified_value < 1 or specified_value > len(data_for_change):
@@ -97,9 +101,6 @@ def update_object(main_server_path, main_server_name):
 	print "Enter new " + access_keys[number_2 - 1]
 	new_value = raw_input()
 
-	# print item + "<-- item"
-	# for xx in data_for_change:
-	# 	print xx + "<-- dataforChange"
 	for xx in data_for_change:
 		print xx + "<-- access_keys"
 
