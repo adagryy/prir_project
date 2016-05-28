@@ -1,9 +1,10 @@
 from functions import error_message
 import os, sys, json
 
-def insert_object():
+def insert_object(main_path_of_all_servers, main_server):
 	object_contents = {}
-	dirs = os.walk("/home/adam/Desktop/nfsy/db1").next()[1]
+
+	dirs = os.walk(main_server).next()[1]
 
 	if len(dirs) == 0:
 		print "Warning. You have to specify the object structure. Press 'h' for help"
@@ -23,10 +24,10 @@ def insert_object():
 			break
 		except ValueError:
 			error_message()
-	with open("/home/adam/Desktop/nfsy/db1/" + dirs[number - 1] + ".txt") as json_file:
+	with open(main_server + dirs[number - 1] + ".txt") as json_file:
 		json_data = json.load(json_file)
-	server = find_optimal_server("/home/adam/Desktop/nfsy", dirs[number - 1])
-	fline=open("/home/adam/Desktop/nfsy/db1/" + dirs[number - 1] + "/_config_" + dirs[number - 1] + "_config_.txt").readline().rstrip()
+	server = find_optimal_server(main_path_of_all_servers, dirs[number - 1])
+	fline=open(main_server + dirs[number - 1] + "/_config_" + dirs[number - 1] + "_config_.txt").readline().rstrip()
 
 	print fline
 	print server
@@ -43,7 +44,7 @@ def insert_object():
 	text_file.write(exact_object)
 	text_file.close()
 
-	text_file = open("/home/adam/Desktop/nfsy/db1/" + dirs[number - 1] + "/_config_" + dirs[number - 1] + "_config_.txt", "w")
+	text_file = open(main_server + dirs[number - 1] + "/_config_" + dirs[number - 1] + "_config_.txt", "w")
 	text_file.write(str(intfline + 1))
 	text_file.close()
 	raw_input("Object saved to database. Press enter...")
@@ -63,13 +64,3 @@ def find_optimal_server(server_path, object_name):
 		elif files_amount < minimum:
 			wanted_server = path
 	return wanted_server + "/"
-
-
-
-
-
-# basepath = '/home/adam/Desktop/nfsy/db1'
-# for fname in os.listdir(basepath):
-#     path = os.path.join(basepath, fname)
-#     if not os.path.isdir(path):
-#         print fname

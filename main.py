@@ -2,7 +2,7 @@ from functions import *
 from insertion import *
 import sys, json, os, time 
 
-def read_option():
+def read_option(msp, msn):
 	help_print()
 	
 	option = ""
@@ -13,7 +13,7 @@ def read_option():
 		option = raw_input()
 		option = option.lower()
 		if option == 'c':
-			insert_object()
+			insert_object(msp, msn)
 		elif option == 'r':
 			break
 		elif option == 'u':
@@ -31,4 +31,14 @@ def read_option():
 			print "Incorrect option. Hit enter and try again..."
 			raw_input()
 
-read_option()
+
+if len(sys.argv) < 3:
+	print("Not enough run arguments. Exitting...")
+	time.sleep( .5 )
+main_server_path = prepare_path(sys.argv[1])
+main_server_name = prepare_path(sys.argv[2])
+set_path(main_server_path)
+read_option(main_server_path, main_server_name)
+
+# print len(sys.argv)
+# print str(sys.argv[1])

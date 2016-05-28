@@ -1,8 +1,17 @@
 import sys,json,os
 from pprint import pprint
 
-path = '/home/adam/Desktop/nfsy/'
-object_name = ""
+path = ""
+# object_name = ""
+
+def prepare_path(ppath):
+	if ppath[len(ppath) - 1] != "/":
+		ppath += "/"
+	return ppath
+
+def set_path(global_path):
+	global path
+	path = global_path
 
 def help_print():
 	print "C - INSERT new object \n" \
