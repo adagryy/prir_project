@@ -19,9 +19,12 @@ def insert_object(main_path_of_all_servers, main_server):
 			for x in dirs:
 				print str(i) + " " + x
 				i += 1
-			print "Please select, what type of object you want to insert to database:"
+			print "Please select, what type of object you want to insert into database:"
 			number = int(raw_input())
-			break
+			if number < 1 or number > len(dirs):
+				error_message()
+			else:
+				break
 		except ValueError:
 			error_message()
 	with open(main_server + dirs[number - 1] + ".txt") as json_file:

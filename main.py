@@ -1,5 +1,6 @@
 from functions import *
 from insertion import *
+from RUD_operations import *
 import sys, json, os, time 
 
 def read_option(msp, msn):
@@ -17,12 +18,12 @@ def read_option(msp, msn):
 		elif option == 'r':
 			break
 		elif option == 'u':
-			print ""
+			update_object(main_server_path, main_server_name)
 		elif option == 'd':
 			print ""
 		elif option == 'q':
 			print("Exitting...")
-			time.sleep( .5 )
+			time.sleep( .1 )
 			break
 		elif option == 'n':
 			x = create_new_object_type()
