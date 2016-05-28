@@ -16,7 +16,7 @@ def read_option(msp, msn):
 		if option == 'c':
 			insert_object(msp, msn)
 		elif option == 'r':
-			break
+			read_data(main_server_path, main_server_name)
 		elif option == 'u':
 			update_object(main_server_path, main_server_name)
 		elif option == 'd':
