@@ -131,7 +131,7 @@ def read_data(main_server_path, main_server_name):
 			for ot in object_types:
 				print str(i) + " " + ot
 				i += 1
-			print "Please select, what type of object you want to update in the database:"
+			print "Please select, what type of object you want to read from the database:"
 			number = int(raw_input())
 			if number < 1 or number > len(object_types):
 				error_message()
@@ -149,7 +149,7 @@ def read_data(main_server_path, main_server_name):
 	with open(configs) as json_file:
 		json_data = json.load(json_file)
 
-	access_keys = ["" for x in range (len(json_data))]
+	access_keys = ["" for x in range (len(json_data) + 1)]
 	print ("Enter one of the following: ")
 	access_key = ""
 	while True:
@@ -158,47 +158,37 @@ def read_data(main_server_path, main_server_name):
 			sys.stderr.write("\x1b[2J\x1b[H")
 			i = 1
 			for jd in json_data:
-				print(str(i) + ". " + jd)
+				print(str(i) + " - " + jd)
 				access_keys[i - 1] = jd
 				i += 1
-			number = int(raw_input())
-			if number < 1 or number > len(access_keys):
+			number_2 = int(raw_input())
+			if number_2 < 1 or number_2 > len(access_keys):
 				error_message()
 			else:
-				access_key = access_keys[number - 1]
+				access_key = access_keys[number - 2]
 				break
 		except ValueError:
 			error_message()
 
-	
-
-	# for ir in access_keys:
-	# 	print ir
-	print access_key
-	print "Imie"
-
 	print "Enter value you are searching in database: "
 	item = raw_input()
+	# for ir in access_keys:
+	# 	print ir
+
+	print access_key
 
 	for directory in dirs:
 		working_path = main_server_path + directory + "/" + object_types[number - 1] + "/"
 		files = os.walk(working_path).next()[2]
-
 		for file in files:
 			if file.find("_config_") != -1:
 				continue
-			with open(working_path + file) as json_file:
-				json_data = json.load(json_file)
-				print json_data[access_key]
-				print json_data
-			# print object_types
-			# raw_input()
-			
-
-			# if item == json_data[access_key]:
-			# 	for jd2 in json_data:
-			# 		print jd2 + ": " + json_data[jd2]
-	raw_input()
+			with open(working_path + file) as json_filee:
+				json_dataa = json.load(json_filee)
+			if item == json_dataa[access_key]:
+				for jd2 in json_dataa:
+					print jd2 + ": " + json_dataa[jd2]
+	raw_input("Press enter to continue")
 	# with open(configs) as json_file:
 	# 	json_data = json.load(json_file)
 
