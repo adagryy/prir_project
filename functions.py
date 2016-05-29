@@ -19,7 +19,8 @@ def help_print():
 	"U - UPDATE objects... \n" \
 	"D - DELETE objects... \n" \
 	"q - exit database console\n" \
-	"n - new object type"
+	"n - new object type \n" \
+	"xx - expert mode. Managing database"
 
 def error_message():
 	sys.stderr.write("\x1b[2J\x1b[H")

@@ -1,6 +1,7 @@
 from functions import *
 from insertion import *
 from RUD_operations import *
+from special_operations import *
 import sys, json, os, time 
 
 def read_option(msp, msn):
@@ -21,12 +22,14 @@ def read_option(msp, msn):
 			update_object(main_server_path, main_server_name)
 		elif option == 'd':
 			delete_objects(main_server_path, main_server_name)
+		elif option == 'n':
+			x = create_new_object_type()
 		elif option == 'q':
 			print("Exitting...")
 			time.sleep( .1 )
 			break
-		elif option == 'n':
-			x = create_new_object_type()
+		elif option == 'xx':
+			print_special_menu(main_server_path, main_server_name)
 		else:
 			sys.stderr.write("\x1b[2J\x1b[H")
 			print "Incorrect option. Hit enter and try again..."
