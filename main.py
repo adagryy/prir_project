@@ -20,7 +20,7 @@ def read_option(msp, msn):
 		elif option == 'u':
 			update_object(main_server_path, main_server_name)
 		elif option == 'd':
-			print ""
+			delete_objects(main_server_path, main_server_name)
 		elif option == 'q':
 			print("Exitting...")
 			time.sleep( .1 )
@@ -36,10 +36,11 @@ def read_option(msp, msn):
 if len(sys.argv) < 3:
 	print("Not enough run arguments. Exitting...")
 	time.sleep( .5 )
-main_server_path = prepare_path(sys.argv[1])
-main_server_name = prepare_path(sys.argv[2])
-set_path(main_server_path)
-read_option(main_server_path, main_server_name)
+else:
+	main_server_path = prepare_path(sys.argv[1])
+	main_server_name = prepare_path(sys.argv[2])
+	set_path(main_server_path)
+	read_option(main_server_path, main_server_name)
 
 # print len(sys.argv)
 # print str(sys.argv[1])
