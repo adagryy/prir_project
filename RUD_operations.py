@@ -168,6 +168,8 @@ def read_data(main_server_path, main_server_name):
 			number_2 = raw_input()
 			if number_2 == "a":
 				list_all_objects(main_server_path, object_types[number - 1])
+				raw_input("All object has been listed. Press enter to continue")
+				return
 			else: 
 				number_2 = int(number_2)
 			if number_2 < 1 or number_2 > len(access_keys):
@@ -263,8 +265,7 @@ def delete_objects(main_server_path, main_server_name):
 			with open(working_path + file) as json_filee: # "working_path + file" - is path to a file (object). Two loops above allow (using this path) to iterate throuhg all objects of a type specified.
 				json_dataa = json.load(json_filee)
 			if item == json_dataa[access_key]:
-				print file
-				# os.remove(working_path + file)
+				os.remove(working_path + file)
 	print access_keys
 	print access_key
 
@@ -296,5 +297,4 @@ def list_all_objects(main_server_path, object_type):
 				json_dataa = json.load(json_filee)
 			for jd in json_dataa:
 				print jd + ": " + json_dataa[jd]
-	raw_input("Listed")
 	return
