@@ -33,6 +33,9 @@ def create_new_object_type():
 	sys.stderr.write("\x1b[2J\x1b[H")
 	print "Enter new object name"
 	object_name = raw_input()
+
+	# search_object = {}
+	# search_object["name"] = object_name
 	while True:
 		try:
 			sys.stderr.write("\x1b[2J\x1b[H")
@@ -55,16 +58,24 @@ def create_new_object_type():
 		print "Enter datatype for this column"
 		datatype = raw_input()
 		object_properties[name] = datatype
+		# search_object[name] = datatype
 
-	ss = json.dumps(object_properties)
+	data = json.dumps(object_properties)
+	# json_search_object = json.dumps(search_object)
 
 	drs = os.listdir(path)
 
 	for directory in drs:
 		full_path = path
 		full_path = path + directory
+		search_object_path = full_path # <-------------------------
+
+		# search_file = open(search_object_path + "/search.txt")
+		# search_file.write(json_search_object)
+		# search_file.close()
+
 		text_file = open(full_path + "/" + object_name + ".txt", "w")
-		text_file.write(ss)
+		text_file.write(data)
 		text_file.close()
 		dir_name = full_path + "/" + object_name
 		os.mkdir(dir_name)
