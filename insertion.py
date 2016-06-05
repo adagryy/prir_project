@@ -31,7 +31,8 @@ def search_for_duplicates(host):
 	sshcon   = paramiko.SSHClient()  # will create the object
 	sshcon.set_missing_host_key_policy(paramiko.AutoAddPolicy())# no known_hosts error
 	sshcon.connect(host, username=myuser, key_filename=mySSHK) # no passwd needed
-	i, o, e  = sshcon.exec_command('echo ' + query)
+	i, o, e  = sshcon.exec_command('python /home/adam/Desktop/database/script.py ' + query)
+	print 'python /home/adam/Desktop/database/script.py ' + query
 	lock.acquire()
 	results.append(o.read())
 	lock.release()
@@ -84,7 +85,9 @@ def insert_object(main_path_of_all_servers, main_server):
 	# print server
 	fline=open(main_server + dirs[number - 1] + "/_config_" + dirs[number - 1] + "_config_.txt").readline().rstrip()
 
-	print fline
+
+	query += dirs[number - 1] + " "
+	# print fline
 	# print server
 	intfline = int(fline)
 
@@ -97,6 +100,8 @@ def insert_object(main_path_of_all_servers, main_server):
 	for key in json_data:
 		print "Please enter '" + key +"':"
 		object_contents[key] = raw_input()
+		if key == "id":
+			continue
 		search_object.append(key)
 		search_object.append(object_contents[key])
 
@@ -139,6 +144,7 @@ def insert_object(main_path_of_all_servers, main_server):
 
 def create_query_string(s):
 	global query 
+	# query += " "
 	for sstr in s:
 		query += sstr + " "
 	return query
