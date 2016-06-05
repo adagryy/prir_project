@@ -1,8 +1,39 @@
-import sys,json,os
+import sys,json,os,paramiko,threading,time
 from pprint import pprint
 
 path = ""
-# object_name = ""
+
+hostnames = []
+
+results = []
+
+object_name = ""
+
+lock = threading.Lock()
+
+class myThread(threading.Thread):
+	def __init__(self, host):
+		threading.Thread.__init__(self)
+		self.host = host
+	def run(self):
+		search_for_duplicates(self.host)
+
+def search_for_duplicates(host):
+	global results
+	myuser   = 'adam'
+	mySSHK   = '/home/adam/.ssh/id_rsa.pub'
+	sshcon   = paramiko.SSHClient()  # will create the object
+	sshcon.set_missing_host_key_policy(paramiko.AutoAddPolicy())# no known_hosts error
+	sshcon.connect(host, username=myuser, key_filename=mySSHK) # no passwd needed
+	i, o, e  = sshcon.exec_command('python /home/adam/Desktop/database/script.py ' + object_name)
+	# print o.read()
+	lock.acquire()
+	results.append(o.read())
+	lock.release()
+
+def prepare_hosts(hosts):
+	global hostnames
+	hostnames = hosts
 
 def prepare_path(ppath):
 	if ppath[len(ppath) - 1] != "/":
@@ -30,12 +61,43 @@ def error_message():
 def create_new_object_type():
 	i = -1
 	c = 0
+
+	threads = []
+
+
 	sys.stderr.write("\x1b[2J\x1b[H")
 	print "Enter new object name"
+	global object_name
+	global results
+
+	del results[:]
+
+	object_name = ""
+
 	object_name = raw_input()
 
-	# search_object = {}
-	# search_object["name"] = object_name
+	for host in hostnames: # starting threads to search if there is a type of object in the database, ehich user has typed
+		try:
+		   t = myThread(host)
+		   threads.append(t)
+		   t.start()
+		except:
+		   print "Error: unable to start thread"
+
+	for t in threads:
+		t.join()
+
+	# for r in results:
+	# 	print r
+
+	# raw_input()
+	if "True" in results:
+		print ("Duplicate type(s) found. Terminating...")
+		time.sleep(1)
+		return
+
+	# raw_input("Done")
+
 	while True:
 		try:
 			sys.stderr.write("\x1b[2J\x1b[H")

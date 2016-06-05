@@ -117,7 +117,7 @@ def update_object(main_server_path, main_server_name):
 	raw_input("Press enter to continue...")
 	return
 
-def read_data(main_server_path, main_server_name):
+def read_data(main_server_path, main_server_name, special_server):
 	sys.stderr.write("\x1b[2J\x1b[H")
 	dirs = os.walk(main_server_path).next()[1]	# list of all mounted servers
 
@@ -167,7 +167,7 @@ def read_data(main_server_path, main_server_name):
 			print("a - list all")
 			number_2 = raw_input()
 			if number_2 == "a":
-				list_all_objects(main_server_path, object_types[number - 1])
+				list_all_objects(main_server_path, object_types[number - 1], special_server)
 				raw_input("All object has been listed. Press enter to continue")
 				return
 			else: 
@@ -283,10 +283,13 @@ def count_objects(object_type, main_server_path):
 		x -= 1 # skips one file in counting (config file)
 	return x
 
-def list_all_objects(main_server_path, object_type):
+def list_all_objects(main_server_path, object_type, special_server):
 	dirs = os.walk(main_server_path).next()[1]	# list of all mounted servers
 
 	for directory in dirs:
+		if directory == special_server: # <------- MUST BE IMPROVED WITH USE OF A PARAMETER
+			continue
+
 		working_path = main_server_path + directory + "/" + object_type + "/"
 		files = os.walk(working_path).next()[2]
 		for file in files:

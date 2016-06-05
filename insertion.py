@@ -3,8 +3,7 @@ import os, sys, json
 import threading
 import paramiko, time
 
-hostnames = ['192.168.0.1', '192.168.0.2', '192.168.0.4']
-# hostnames = ['192.168.0.4']
+hostnames = []
 results = []
 search_object = []
 
@@ -16,13 +15,8 @@ class myThread(threading.Thread):
 	def __init__(self, host):
 		threading.Thread.__init__(self)
 		self.host = host
-		# self.name = name
-		# self.counter = counter
 	def run(self):
-		# print "Starting " + self.name
-		# print_time(self.name, self.counter, 5)
 		search_for_duplicates(self.host)
-		# print "Exiting " + self.name
 
 def search_for_duplicates(host):
 	global results
@@ -32,13 +26,15 @@ def search_for_duplicates(host):
 	sshcon.set_missing_host_key_policy(paramiko.AutoAddPolicy())# no known_hosts error
 	sshcon.connect(host, username=myuser, key_filename=mySSHK) # no passwd needed
 	i, o, e  = sshcon.exec_command('python /home/adam/Desktop/database/script.py ' + query)
-	# print 'python /home/adam/Desktop/database/script.py ' + query
 	lock.acquire()
-	# if results != "True":
 	results.append(o.read())
 	lock.release()
 
-def insert_object(main_path_of_all_servers, main_server):
+def set_hosts(hosts):
+	global hostnames
+	hostnames = hosts
+
+def insert_object(main_path_of_all_servers, main_server, special_server):
 	global query
 
 	query = ""
@@ -101,7 +97,7 @@ def insert_object(main_path_of_all_servers, main_server):
 	for key in json_data:
 		print "Please enter '" + key +"':"
 		object_contents[key] = raw_input()
-		if key == "id":
+		if key == "id": # skips id's from objects to be not compared
 			continue
 		search_object.append(key)
 		search_object.append(object_contents[key])
@@ -125,16 +121,27 @@ def insert_object(main_path_of_all_servers, main_server):
 
 	global results
 	
-	for r in results:
-		print r
+	# for r in results:
+	# 	print r
 	if "True" in results:
-		raw_input("Duplicate found. Terminating...")
+		print("Duplicate found. Terminating...")
+		time.sleep(1)
 		return
 
-	raw_input("Done!")
+	# raw_input("Done!")
 	#MMMMMMMMMMMMMMMMMMMMMMMMMMMMM
 
 	exact_object = json.dumps(object_contents)
+
+	print server
+
+	special_server = get_special_server(main_path_of_all_servers, special_server, dirs[number - 1].lower())
+
+	text_file = open(special_server + "_" + dirs[number - 1].lower() + "_" + fline + ".txt", "w") # at first I am saving a backup on a special server
+	print special_server + "_" + dirs[number - 1].lower() + "_" + fline + ".txt"
+	text_file.write(exact_object)
+	text_file.close()
+
 
 	text_file = open(server + "_" + dirs[number - 1].lower() + "_" + fline + ".txt", "w")
 	text_file.write(exact_object)
@@ -145,6 +152,9 @@ def insert_object(main_path_of_all_servers, main_server):
 	text_file.close()
 	raw_input("Object saved to database. Press enter...")
 	return
+
+def get_special_server(server_path, special_server, object_name):
+	return server_path + special_server + "/" + object_name + "/"
 
 def create_query_string(s):
 	global query 

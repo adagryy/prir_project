@@ -4,6 +4,9 @@ from RUD_operations import *
 from special_operations import *
 import sys, json, os, time 
 
+hostnames = ['192.168.0.1', '192.168.0.2', '192.168.0.4']
+special_server = "db"
+
 def read_option(msp, msn):
 	help_print()
 	
@@ -15,14 +18,20 @@ def read_option(msp, msn):
 		option = raw_input()
 		option = option.lower()
 		if option == 'c':
-			insert_object(msp, msn)
+			global hostnames
+			global special_server
+			set_hosts(hostnames)
+			insert_object(msp, msn, special_server)
 		elif option == 'r':
-			read_data(main_server_path, main_server_name)
+			global special_server
+			read_data(main_server_path, main_server_name, special_server)
 		elif option == 'u':
 			update_object(main_server_path, main_server_name)
 		elif option == 'd':
 			delete_objects(main_server_path, main_server_name)
 		elif option == 'n':
+			global hostnames
+			prepare_hosts(hostnames)
 			x = create_new_object_type()
 		elif option == 'q':
 			print("Exitting...")
