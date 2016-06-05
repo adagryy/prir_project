@@ -33,4 +33,4 @@ else:
 			if compare_dict == json_data:
 				flag = True
 				break
-	print flag
+	sys.stdout.write(str(flag))

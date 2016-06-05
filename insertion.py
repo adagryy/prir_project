@@ -32,8 +32,9 @@ def search_for_duplicates(host):
 	sshcon.set_missing_host_key_policy(paramiko.AutoAddPolicy())# no known_hosts error
 	sshcon.connect(host, username=myuser, key_filename=mySSHK) # no passwd needed
 	i, o, e  = sshcon.exec_command('python /home/adam/Desktop/database/script.py ' + query)
-	print 'python /home/adam/Desktop/database/script.py ' + query
+	# print 'python /home/adam/Desktop/database/script.py ' + query
 	lock.acquire()
+	# if results != "True":
 	results.append(o.read())
 	lock.release()
 
@@ -126,6 +127,9 @@ def insert_object(main_path_of_all_servers, main_server):
 	
 	for r in results:
 		print r
+	if "True" in results:
+		raw_input("Duplicate found. Terminating...")
+		return
 
 	raw_input("Done!")
 	#MMMMMMMMMMMMMMMMMMMMMMMMMMMMM

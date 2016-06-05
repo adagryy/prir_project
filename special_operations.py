@@ -88,6 +88,8 @@ def drop_database(main_server_path):
 			shutil.rmtree(working_path + obj + "/", ignore_errors=True)
 			# print working_path + obj + "/"
 		for f in files:
+			if f == "script.py":
+				continue
 			os.remove(working_path + f)
 			# print working_path + f
 	raw_input("Database has been dropped. Hit enter to continue")
